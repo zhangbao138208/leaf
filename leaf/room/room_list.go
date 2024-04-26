@@ -2,7 +2,7 @@ package room
 
 import (
 	"math/rand"
-	"server/protocol"
+	
 	"strconv"
 	"sync"
 	"time"
@@ -16,7 +16,7 @@ func OnMessage(m interface{}, a gate.Agent) {
 		o.GetRoom().Send(o, m)
 	} else {
 		if r := hand.Create(m); r == nil {
-			a.WriteMsg(protocol.MSG_NOT_IN_ROOM)
+			a.WriteMsg(MSG_NOT_IN_ROOM)
 		} else {
 			SetRoom(r)
 			r.Send(o, m)

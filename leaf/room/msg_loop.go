@@ -2,7 +2,7 @@ package room
 
 import (
 	"errors"
-	"server/protocol"
+	//"server/protocol"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/golang/glog"
@@ -65,7 +65,7 @@ func (r *MsgLoop) Send(o IOccupant, m interface{}) error {
 	select {
 	case r.msgChan <- &msgObj{m, o}:
 	default:
-		o.WriteMsg(protocol.MSG_ROOM_CLOSED)
+		o.WriteMsg(MSG_ROOM_CLOSED)
 	}
 
 	return errors.New("room closed")
@@ -84,7 +84,7 @@ func (r *Log) Info(args ...interface{}) {
 }
 
 func (r *Log) Infof(format string, args ...interface{}) {
-	glog.InfofDepth(1, format, r.parseLog(args)...)
+	glog.InfoDepthf(1, format, r.parseLog(args)...)
 }
 
 func (r *Log) Error(args ...interface{}) {
@@ -101,10 +101,10 @@ func (r *Log) Debugf(format string, args ...interface{}) {
 	for k, v := range args {
 		args[k] = spew.Sdump(v)
 	}
-	glog.InfofDepth(1, format, r.parseLog(args)...)
+	glog.InfoDepthf(1, format, r.parseLog(args)...)
 }
 func (r *Log) Errorf(format string, args ...interface{}) {
-	glog.ErrorfDepth(1, format, r.parseLog(args)...)
+	glog.WarningDepthf(1, format, r.parseLog(args)...)
 }
 
 func (r *Log) parseLog(args ...interface{}) []interface{} {
